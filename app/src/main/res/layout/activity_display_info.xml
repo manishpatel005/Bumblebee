@@ -12,6 +12,14 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"/>
 
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="400dp"
+        android:layout_height="400dp"
+        android:id="@+id/map"
+        tools:context=".DisplayInfoActivity"
+        android:name="com.google.android.gms.maps.SupportMapFragment" />
+
     <Button
         android:id="@+id/unlock_button"
         android:layout_width="186dp"
