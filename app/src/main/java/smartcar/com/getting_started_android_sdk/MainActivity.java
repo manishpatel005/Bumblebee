@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         appContext = getApplicationContext();
         CLIENT_ID = getString(R.string.client_id);
         REDIRECT_URI = "sc" + getString(R.string.client_id) + "://exchange";
-        SCOPE = new String[]{"read_vehicle_info"};
+        SCOPE = new String[]{"read_vehicle_info","control_security","read_odometer","read_location"};
 
         smartcarAuth = new SmartcarAuth(
                 CLIENT_ID,
@@ -62,7 +62,9 @@ public class MainActivity extends AppCompatActivity {
 
                                 try {
                                     client.newCall(exchangeRequest).execute();
-                                } catch (IOException e) {}
+                                } catch (IOException e) {
+
+                                }
 
                                 // send request to retrieve the vehicle info
                                 Request infoRequest = new Request.Builder()
@@ -73,11 +75,14 @@ public class MainActivity extends AppCompatActivity {
                                     Response response = client.newCall(infoRequest).execute();
 
                                     String jsonBody = response.body().string();
+                                    System.out.println(jsonBody);
                                     JSONObject JObject = new JSONObject(jsonBody);
 
                                     String make = JObject.getString("make");
                                     String model = JObject.getString("model");
                                     String year = JObject.getString("year");
+
+                                    System.out.println("make="+make+" model="+model+" year="+year);
 
                                     Intent intent = new Intent(appContext, DisplayInfoActivity.class);
                                     intent.putExtra("INFO", make + " " + model + " " + year);
@@ -95,7 +100,6 @@ public class MainActivity extends AppCompatActivity {
                 });
 
         Button connectButton = (Button) findViewById(R.id.connect_button);
-
         smartcarAuth.addClickHandler(appContext, connectButton);
     }
 }
