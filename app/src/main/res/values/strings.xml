@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">unlock-car</string>
+    <string name="app_name">BumbleBee</string>
     <string name="smartcar_auth_scheme">sc68aac7cb-e318-4369-bf78-e6d6d902b129</string>
     <string name="smartcar_auth_host">exchange</string>
     <string name="client_id">68aac7cb-e318-4369-bf78-e6d6d902b129</string>

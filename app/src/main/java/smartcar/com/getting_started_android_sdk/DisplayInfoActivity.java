@@ -29,6 +29,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.smartcar.sdk.SmartcarAuth;
 import com.smartcar.sdk.SmartcarCallback;
 import com.smartcar.sdk.SmartcarResponse;
@@ -42,9 +48,28 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class DisplayInfoActivity  extends AppCompatActivity {
+public class DisplayInfoActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     TextView locationTextView;
+    String response;
+
+    private static final LatLng TESLA = new LatLng(-31.952854, 115.857342);
+    private Marker mTesla;
+    private GoogleMap mMap;
+
+    /** Called when the map is ready. */
+    @Override
+    public void onMapReady(GoogleMap map) {
+        mMap = map;
+        mTesla = mMap.addMarker(new MarkerOptions()
+                .position(TESLA)
+                .title(response));
+        mTesla.setTag(0);
+
+        mTesla.setVisible(false);
+        // Set a listener for marker click.
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +77,7 @@ public class DisplayInfoActivity  extends AppCompatActivity {
         setContentView(R.layout.activity_display_info);
 
         Intent intent = getIntent();
-        String response = intent.getStringExtra("INFO");
+        response = intent.getStringExtra("INFO");
         TextView modelTextView = (TextView) findViewById(R.id.model_text);
         modelTextView.setTextSize(30);
         modelTextView.setText(response);
@@ -65,6 +90,10 @@ public class DisplayInfoActivity  extends AppCompatActivity {
 
         Button UnlockButton = (Button) findViewById(R.id.unlock_button);
         Button LockButton = (Button) findViewById(R.id.lock_button);
+
+
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
     }
 
     public void onUnlock(View view){
@@ -179,6 +208,9 @@ public class DisplayInfoActivity  extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        mTesla.setPosition(new LatLng(Double.parseDouble(latitude[0]),Double.parseDouble(longitude[0])));
+
+        mTesla.setVisible(true);
         locationTextView.setText("Latitude: "+ latitude[0] +"\nLongitude: "+ longitude[0]);
         locationTextView.setVisibility(View.VISIBLE);
     }
