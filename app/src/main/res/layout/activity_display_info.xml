@@ -8,19 +8,23 @@
 
     <Button
         android:id="@+id/unlock_button"
-        android:layout_width="222dp"
+        android:layout_width="186dp"
         android:layout_height="48dp"
         android:layout_marginStart="99dp"
+        android:layout_marginTop="231dp"
         android:layout_marginEnd="99dp"
+        android:layout_marginBottom="232dp"
         android:text="UNLOCK"
         android:onClick="onUnlock"/>
 
     <Button
         android:id="@+id/lock_button"
-        android:layout_width="200dp"
+        android:layout_width="186dp"
         android:layout_height="48dp"
         android:layout_marginStart="99dp"
+        android:layout_marginTop="231dp"
         android:layout_marginEnd="99dp"
+        android:layout_marginBottom="232dp"
         android:text="LOCK"
         android:onClick="onLock"/>
 
