@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">unlock-car</string>
+    <string name="smartcar_auth_scheme">sca98f8c93-818f-437f-9e3f-17b6fd971e03</string>
+    <string name="smartcar_auth_host">exchange</string>
+    <string name="client_id">a98f8c93-818f-437f-9e3f-17b6fd971e03</string>
+    <string name="app_server">sca98f8c93-818f-437f-9e3f-17b6fd971e03://exchange</string>
+</resources>
