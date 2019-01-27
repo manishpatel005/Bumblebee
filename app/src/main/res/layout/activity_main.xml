@@ -14,7 +14,7 @@
         android:layout_marginTop="231dp"
         android:layout_marginEnd="99dp"
         android:layout_marginBottom="232dp"
-        android:text="Connect vehicles"
+        android:text="Connect my vehicle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

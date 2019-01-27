@@ -4,16 +4,20 @@
     android:id="@+id/activity_display_info"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".DisplayInfoActivity">
+
+    <TextView
+        android:id="@+id/model_text"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"/>
 
     <Button
         android:id="@+id/unlock_button"
         android:layout_width="186dp"
         android:layout_height="48dp"
         android:layout_marginStart="99dp"
-        android:layout_marginTop="231dp"
         android:layout_marginEnd="99dp"
-        android:layout_marginBottom="232dp"
         android:text="UNLOCK"
         android:onClick="onUnlock"/>
 
@@ -22,10 +26,17 @@
         android:layout_width="186dp"
         android:layout_height="48dp"
         android:layout_marginStart="99dp"
-        android:layout_marginTop="231dp"
         android:layout_marginEnd="99dp"
-        android:layout_marginBottom="232dp"
         android:text="LOCK"
         android:onClick="onLock"/>
+
+    <Button
+        android:id="@+id/getLoc_button"
+        android:layout_width="186dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="99dp"
+        android:layout_marginEnd="99dp"
+        android:text="GET LOCATION"
+        android:onClick="onGetLoc"/>
 
 </LinearLayout>

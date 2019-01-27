@@ -44,11 +44,7 @@ import okhttp3.Response;
 
 public class DisplayInfoActivity  extends AppCompatActivity {
 
-    private static String CLIENT_ID;
-    private static String REDIRECT_URI;
-    private static String[] SCOPE;
-    private Context appContext;
-    private SmartcarAuth smartcarAuth;
+    TextView locationTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,23 +53,18 @@ public class DisplayInfoActivity  extends AppCompatActivity {
 
         Intent intent = getIntent();
         String response = intent.getStringExtra("INFO");
-        TextView textView = new TextView(this);
-        textView.setTextSize(30);
-        textView.setText(response);
+        TextView modelTextView = (TextView) findViewById(R.id.model_text);
+        modelTextView.setTextSize(30);
+        modelTextView.setText(response);
+
+        locationTextView = new TextView(this);
+        locationTextView.setVisibility(View.GONE);
 
         ViewGroup layout = (ViewGroup) findViewById(R.id.activity_display_info);
-        layout.addView(textView);
+        layout.addView(locationTextView);
 
-       // appContext = getApplicationContext();
-       // CLIENT_ID = getString(R.string.client_id);
-        //REDIRECT_URI = "sc" + getString(R.string.client_id) + "://exchange";
-        //SCOPE = new String[]{"read_vehicle_info","control_security","read_odometer","read_location"};
-
-
-
-        Button connectButton = (Button) findViewById(R.id.unlock_button);
-        Button connectButton2 = (Button) findViewById(R.id.lock_button);
-       // smartcarAuth.addClickHandler(appContext, connectButton);
+        Button UnlockButton = (Button) findViewById(R.id.unlock_button);
+        Button LockButton = (Button) findViewById(R.id.lock_button);
     }
 
     public void onUnlock(View view){
@@ -84,8 +75,6 @@ public class DisplayInfoActivity  extends AppCompatActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-
-
 
                 // send request to retrieve the vehicle info
                 Request infoRequest = new Request.Builder()
@@ -121,8 +110,6 @@ public class DisplayInfoActivity  extends AppCompatActivity {
             @Override
             public void run() {
 
-
-
                 // send request to retrieve the vehicle info
                 Request infoRequest = new Request.Builder()
                         .url(getString(R.string.app_server) + "/lock")
@@ -146,5 +133,53 @@ public class DisplayInfoActivity  extends AppCompatActivity {
                 }
             }
         }).start();
+    }
+
+    public void onGetLoc(View view) throws InterruptedException {
+        final OkHttpClient client = new OkHttpClient();
+        final String[] latitude = new String[1];
+        final String[] longitude = new String[1];
+
+        // Request can not run on the Main Thread
+        // Main Thread is used for UI and therefore can not be blocked
+        Thread locationGetter = new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                // send request to retrieve the vehicle info
+                Request infoRequest = new Request.Builder()
+                        .url(getString(R.string.app_server) + "/getLocation")
+                        .build();
+
+                try {
+                    Response response = client.newCall(infoRequest).execute();
+
+                    String jsonBody = response.body().string();
+                    System.out.println(jsonBody);
+                    JSONObject JObject = new JSONObject(jsonBody);
+                    JSONObject data = JObject.getJSONObject("data");
+
+                    latitude[0] = data.getString("latitude");
+                    longitude[0] = data.getString("longitude");
+
+                    System.out.println("Latitude: "+ latitude[0] +"\nLongitude: "+ longitude[0]);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        locationGetter.start();
+        try {
+            locationGetter.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        locationTextView.setText("Latitude: "+ latitude[0] +"\nLongitude: "+ longitude[0]);
+        locationTextView.setVisibility(View.VISIBLE);
     }
 }
