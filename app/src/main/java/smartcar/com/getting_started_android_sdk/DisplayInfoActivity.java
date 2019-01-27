@@ -20,13 +20,35 @@
 
 package smartcar.com.getting_started_android_sdk;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
+import com.smartcar.sdk.SmartcarAuth;
+import com.smartcar.sdk.SmartcarCallback;
+import com.smartcar.sdk.SmartcarResponse;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
 public class DisplayInfoActivity  extends AppCompatActivity {
+
+    private static String CLIENT_ID;
+    private static String REDIRECT_URI;
+    private static String[] SCOPE;
+    private Context appContext;
+    private SmartcarAuth smartcarAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,5 +63,88 @@ public class DisplayInfoActivity  extends AppCompatActivity {
 
         ViewGroup layout = (ViewGroup) findViewById(R.id.activity_display_info);
         layout.addView(textView);
+
+       // appContext = getApplicationContext();
+       // CLIENT_ID = getString(R.string.client_id);
+        //REDIRECT_URI = "sc" + getString(R.string.client_id) + "://exchange";
+        //SCOPE = new String[]{"read_vehicle_info","control_security","read_odometer","read_location"};
+
+
+
+        Button connectButton = (Button) findViewById(R.id.unlock_button);
+        Button connectButton2 = (Button) findViewById(R.id.lock_button);
+       // smartcarAuth.addClickHandler(appContext, connectButton);
+    }
+
+    public void onUnlock(View view){
+        final OkHttpClient client = new OkHttpClient();
+
+        // Request can not run on the Main Thread
+        // Main Thread is used for UI and therefore can not be blocked
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+
+
+                // send request to retrieve the vehicle info
+                Request infoRequest = new Request.Builder()
+                        .url(getString(R.string.app_server) + "/unlock")
+                        .build();
+
+                try {
+                    Response response = client.newCall(infoRequest).execute();
+
+                    String jsonBody = response.body().string();
+                    System.out.println(jsonBody);
+                    //JSONObject JObject = new JSONObject(jsonBody);
+
+                    /*String make = JObject.getString("make");
+                    String model = JObject.getString("model");
+                    String year = JObject.getString("year");
+                    */
+                    System.out.println("Unlocked in client");
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
+    public void onLock(View view){
+        final OkHttpClient client = new OkHttpClient();
+
+        // Request can not run on the Main Thread
+        // Main Thread is used for UI and therefore can not be blocked
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+
+
+                // send request to retrieve the vehicle info
+                Request infoRequest = new Request.Builder()
+                        .url(getString(R.string.app_server) + "/lock")
+                        .build();
+
+                try {
+                    Response response = client.newCall(infoRequest).execute();
+
+                    String jsonBody = response.body().string();
+                    System.out.println(jsonBody);
+                    //JSONObject JObject = new JSONObject(jsonBody);
+
+                    /*String make = JObject.getString("make");
+                    String model = JObject.getString("model");
+                    String year = JObject.getString("year");
+                    */
+                    System.out.println("Locked in client");
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 }

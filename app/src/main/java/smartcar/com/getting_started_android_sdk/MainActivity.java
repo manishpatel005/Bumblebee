@@ -82,8 +82,6 @@ public class MainActivity extends AppCompatActivity {
                                     String model = JObject.getString("model");
                                     String year = JObject.getString("year");
 
-                                    System.out.println("make="+make+" model="+model+" year="+year);
-
                                     Intent intent = new Intent(appContext, DisplayInfoActivity.class);
                                     intent.putExtra("INFO", make + " " + model + " " + year);
                                     startActivity(intent);

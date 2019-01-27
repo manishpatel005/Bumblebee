@@ -1,9 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_display_info"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".DisplayInfoActivity">
 
-</RelativeLayout>
+    <Button
+        android:id="@+id/unlock_button"
+        android:layout_width="222dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="99dp"
+        android:layout_marginEnd="99dp"
+        android:text="UNLOCK"
+        android:onClick="onUnlock"/>
+
+    <Button
+        android:id="@+id/lock_button"
+        android:layout_width="200dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="99dp"
+        android:layout_marginEnd="99dp"
+        android:text="LOCK"
+        android:onClick="onLock"/>
+
+</LinearLayout>
